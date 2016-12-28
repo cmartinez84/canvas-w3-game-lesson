@@ -30,33 +30,50 @@ function component(width, height, color, x, y) {
     this.height = height;
     this.x = x;
     this.y = y;
+    this.speedX = 0;
+    this.speedY = 0;
     ctx = myGameArea.context;
     ctx.fillStyle = color;
     this.update = function(){
         ctx = myGameArea.context;
         ctx.fillStyle = color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
+    },
+    this.newPos = function (){
+      this.x += this.speedX;
+      this.y += this.speedY;
     }
 }
-// startGame();
 function updateGameArea() {
     myGameArea.clear();
-    myGamePiece.x += 1;
-    myGamePiece.y +=.2;
-
-    redGamePiece.x += 1;
-    yellowGamePiece.x += 1;
-    yellowGamePiece.y += 1;
-    blueGamePiece.x += 1;
-    blueGamePiece.y -= 1;
-
-
-
+    myGamePiece.newPos();
     myGamePiece.update();
 
-    redGamePiece.update();
-   yellowGamePiece.update();
-   blueGamePiece.update();
+    // redGamePiece.x += 1;
+    // yellowGamePiece.x += 1;
+    // yellowGamePiece.y += 1;
+    // blueGamePiece.x += 1;
+    // blueGamePiece.y -= 1;
+
+  //  redGamePiece.update();
+  //  yellowGamePiece.update();
+  //  blueGamePiece.update();
+}
+function moveUp(){
+  myGamePiece.speedY -= 1;
+}
+function moveDown(){
+  myGamePiece.speedY +=1;
+}
+function moveLeft(){
+  myGamePiece.speedX -=1;
+}
+function moveRight(){
+  myGamePiece.speedX +=1;
+}
+function stopMove(){
+  myGamePiece.speedX = 0;
+  myGamePiece.speedY = 0;
 }
 
 startGame();
