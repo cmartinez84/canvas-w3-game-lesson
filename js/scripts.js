@@ -78,8 +78,6 @@ function component(width, height, color, x, y) {
 
 
 function updateGameArea() {
-    // myGamePiece.speedX = 0;
-    // myGamePiece.speedY = 0;
     var x, y;
     for (i = 0; i < myObstacles.length; i++){
       console.log("running ob");
@@ -90,12 +88,17 @@ function updateGameArea() {
     }
     myGameArea.clear();
     myGameArea.frameNo += 1;
-    console.log(myGameArea.frameNo + "  frame");
 
     if((myGameArea.frameNo == 1) || everyinterval(150)){
       x = myGameArea.canvas.width;
-      y = myGameArea.canvas.height - 200;
-      myObstacles.push(new component(10, 200, "green", x, y));
+      minHeight = 20;
+      maxHeight = 200;
+      height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+      minGap = 50;
+      maxGap = 200;
+      gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+      myObstacles.push(new component(10, height, "green", x, 0));
+      myObstacles.push(new component(10, x - height - gap, "green", x, height + gap));
       console.log(myObstacles.length);
     }
 
@@ -108,6 +111,9 @@ function updateGameArea() {
       myGamePiece.update();
 
 }
+
+
+
 function moveUp(){
   myGamePiece.speedY -= 1;
 }
