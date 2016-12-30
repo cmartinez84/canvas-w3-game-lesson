@@ -1,10 +1,12 @@
 var myGamePiece;
 var myObstacles= [];
+var myScore;
 
 function startGame() {
   myGameArea.start();
     myGamePiece = new component(20, 10, "red", 10, 120);
-    myObstacle = new component(10, 200, "green", 300, 120);
+    // myObstacle = new component(10, 200, "green", 300, 120);
+    myScore = new component("30px", "Consolas", "black", 280, 40, "text");
 }
 
 var myGameArea = {
@@ -37,7 +39,8 @@ function everyinterval(n) {
 }
 
 
-function component(width, height, color, x, y) {
+function component(width, height, color, x, y, type) {
+    this.type = type;
     this.width = width;
     this.height = height;
     this.x = x;
@@ -49,7 +52,13 @@ function component(width, height, color, x, y) {
     this.update = function(){
         ctx = myGameArea.context;
         ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        if(this.type == "text"){
+          ctx.font = this.width + " " + this.height;
+          ctx.fillText(this.text, this.x, this.y);
+        }
+        else{
+          ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
     },
     this.newPos = function (){
       this.x += this.speedX;
@@ -113,6 +122,8 @@ function updateGameArea() {
         myObstacles[i].update();
       }
       // myObstacle.update();
+      myScore.text="SCORE: " + myGameArea.frameNo;
+      myScore.update()
       myGamePiece.newPos();
       myGamePiece.update();
 
