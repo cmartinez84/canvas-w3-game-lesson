@@ -141,24 +141,34 @@ function updateGameArea() {
       myScore.update()
       myGamePiece.newPos();
       myGamePiece.update();
-
 }
+
+
 
 
 
 function moveUp(){
+  myGamePiece.image.src = "angry.gif";
+
   myGamePiece.speedY -= 1;
 }
 function moveDown(){
+  myGamePiece.image.src = "angry.gif";
+
   myGamePiece.speedY +=1;
 }
 function moveLeft(){
+  myGamePiece.image.src = "angry.gif";
+
   myGamePiece.speedX -=1;
 }
 function moveRight(){
+  myGamePiece.image.src = "angry.gif";
+
   myGamePiece.speedX +=1;
 }
 function stopMove(){
+   myGamePiece.image.src = "smiley.gif";
   myGamePiece.speedX = 0;
   myGamePiece.speedY = 0;
 }
