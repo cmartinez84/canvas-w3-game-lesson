@@ -1,6 +1,7 @@
 var myGamePiece;
 var myObstacles= [];
 var myScore;
+var myBackground;
 
 function startGame() {
   myGameArea.start();
@@ -8,6 +9,7 @@ function startGame() {
     myGamePiece = new component(30, 30, "smiley.gif", 10, 120, "image");
     // myObstacle = new component(10, 200, "green", 300, 120);
     myScore = new component("30px", "helvetica", "black", 280, 40, "text");
+    myBackground = new component(656, 270, "portland.jpg", 0, 0, "background");
 }
 
 var myGameArea = {
@@ -41,11 +43,11 @@ function everyinterval(n) {
 
 
 function component(width, height, color, x, y, type) {
+
     this.type = type;
-    if (type == "image") {
+    if (this.type == "image" || this.type == "background") {
      this.image = new Image();
      this.image.src = color;
-     console.log("image");
    }
     this.width = width;
     this.height = height;
@@ -62,13 +64,18 @@ function component(width, height, color, x, y, type) {
           ctx.fillStyle = color;
           ctx.font = this.width + " " + this.height;
           ctx.fillText(this.text, this.x, this.y);
+
         }
-        if(this.type =="image"){
+        if(this.type =="image" || this.type == "background"){
           ctx.drawImage(this.image,
           this.x,
           this.y,
           this.width,
           this.height);
+          if (this.type == "background") {
+                ctx.drawImage(this.image,
+                this.x + this.width, this.y, this.width, this.height);
+            }
         }
         else{
           ctx.fillStyle = color;
@@ -78,6 +85,12 @@ function component(width, height, color, x, y, type) {
     this.newPos = function (){
       this.x += this.speedX;
       this.y += this.speedY;
+      if (this.type == "background") {
+            if (this.x == -(this.width)) {
+                this.x = 0;
+                console.log("loop?");
+            }
+        }
     },
     this.crashWith = function(otherobj){
       var myleft = this.x;
@@ -103,6 +116,7 @@ function component(width, height, color, x, y, type) {
 
 function updateGameArea() {
     var x, y;
+
     for (i = 0; i < myObstacles.length; i++){
       console.log("running ob");
       if(myGamePiece.crashWith(myObstacles[i])){
@@ -111,6 +125,9 @@ function updateGameArea() {
       }
     }
     myGameArea.clear();
+    myBackground.newPos();
+    myBackground.speedX -= .01;
+    myBackground.update();
     myGameArea.frameNo += 1;
 
     if((myGameArea.frameNo == 1) || everyinterval(150)){
@@ -139,6 +156,8 @@ function updateGameArea() {
       // myObstacle.update();
       myScore.text="SCORE: " + myGameArea.frameNo;
       myScore.update()
+
+
       myGamePiece.newPos();
       myGamePiece.update();
 }
