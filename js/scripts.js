@@ -2,6 +2,7 @@ var myGamePiece;
 var myObstacles= [];
 var myScore;
 var myBackground;
+var mySound;
 
 function startGame() {
   myGameArea.start();
@@ -10,6 +11,8 @@ function startGame() {
     // myObstacle = new component(10, 200, "green", 300, 120);
     myScore = new component("30px", "helvetica", "black", 280, 40, "text");
     myBackground = new component(656, 270, "portland.jpg", 0, 0, "background");
+    // mySound = new sound("bounce.mp3");
+
 }
 
 var myGameArea = {
@@ -20,7 +23,7 @@ var myGameArea = {
         // this.canvas.style.cursor = "none";
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(updateGameArea, 20);
+        this.interval = setInterval(updateGameArea, 100);
         this.frameNo = 0;
     },
     clear : function() {
@@ -33,17 +36,14 @@ var myGameArea = {
 
 function everyinterval(n) {
     if (myGameArea.frameNo % n == 0) {
-      // console.log("yo");
       return true;}
       else{
-        // console.log("false");
         return false;
       }
 }
 
 
 function component(width, height, color, x, y, type) {
-
     this.type = type;
     if (this.type == "image" || this.type == "background") {
      this.image = new Image();
@@ -86,9 +86,10 @@ function component(width, height, color, x, y, type) {
       this.x += this.speedX;
       this.y += this.speedY;
       if (this.type == "background") {
-            if (this.x == -(this.width)) {
+        console.log(this.x);
+            if (this.x < -(this.width)) {
                 this.x = 0;
-                console.log("loop?");
+                // console.log("i ran");
             }
         }
     },
@@ -116,17 +117,16 @@ function component(width, height, color, x, y, type) {
 
 function updateGameArea() {
     var x, y;
-
     for (i = 0; i < myObstacles.length; i++){
-      console.log("running ob");
       if(myGamePiece.crashWith(myObstacles[i])){
         myGameArea.stop();
+        // mySound.play();
         return;
       }
     }
     myGameArea.clear();
     myBackground.newPos();
-    myBackground.speedX -= .01;
+    myBackground.speedX -= .1;
     myBackground.update();
     myGameArea.frameNo += 1;
 
@@ -161,6 +161,23 @@ function updateGameArea() {
       myGamePiece.newPos();
       myGamePiece.update();
 }
+
+
+
+// function sound(src) {
+//     this.sound = document.createElement("audio");
+//     this.sound.src = src;
+//     this.sound.setAttribute("preload", "auto");
+//     this.sound.setAttribute("controls", "none");
+//     this.sound.style.display = "none";
+//     document.body.appendChild(this.sound);
+//     this.play = function(){
+//         this.sound.play();
+//     }
+//     this.stop = function(){
+//         this.sound.pause();
+//     }
+// }
 
 
 
