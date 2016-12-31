@@ -4,9 +4,10 @@ var myScore;
 
 function startGame() {
   myGameArea.start();
-    myGamePiece = new component(20, 10, "red", 10, 120);
+    // myGamePiece = new component(20, 10, "red", 10, 120);
+    myGamePiece = new component(30, 30, "smiley.gif", 10, 120, "image");
     // myObstacle = new component(10, 200, "green", 300, 120);
-    myScore = new component("30px", "Consolas", "black", 280, 40, "text");
+    myScore = new component("30px", "helvetica", "black", 280, 40, "text");
 }
 
 var myGameArea = {
@@ -41,6 +42,11 @@ function everyinterval(n) {
 
 function component(width, height, color, x, y, type) {
     this.type = type;
+    if (type == "image") {
+     this.image = new Image();
+     this.image.src = color;
+     console.log("image");
+   }
     this.width = width;
     this.height = height;
     this.x = x;
@@ -51,12 +57,21 @@ function component(width, height, color, x, y, type) {
     ctx.fillStyle = color;
     this.update = function(){
         ctx = myGameArea.context;
-        ctx.fillStyle = color;
+        // ctx.fillStyle = color;
         if(this.type == "text"){
+          ctx.fillStyle = color;
           ctx.font = this.width + " " + this.height;
           ctx.fillText(this.text, this.x, this.y);
         }
+        if(this.type =="image"){
+          ctx.drawImage(this.image,
+          this.x,
+          this.y,
+          this.width,
+          this.height);
+        }
         else{
+          ctx.fillStyle = color;
           ctx.fillRect(this.x, this.y, this.width, this.height);
         }
     },
