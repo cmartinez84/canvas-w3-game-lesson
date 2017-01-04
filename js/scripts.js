@@ -49,6 +49,8 @@ function component(width, height, color, x, y, type) {
      this.image = new Image();
      this.image.src = color;
    }
+   this.gravity = 0.01;
+   this.gravitySpeed = 0;
     this.width = width;
     this.height = height;
     this.x = x;
@@ -83,8 +85,14 @@ function component(width, height, color, x, y, type) {
         }
     },
     this.newPos = function (){
+      this.gravitySpeed += this.gravity;
       this.x += this.speedX;
       this.y += this.speedY;
+      if(this.type == "image"){
+        this.y  += this.gravitySpeed;
+        this.hitBottom();
+      }
+
       if (this.type == "background") {
         console.log(this.x);
             if (this.x < -(this.width)) {
@@ -92,6 +100,7 @@ function component(width, height, color, x, y, type) {
                 // console.log("i ran");
             }
         }
+
     },
     this.crashWith = function(otherobj){
       var myleft = this.x;
@@ -110,6 +119,14 @@ function component(width, height, color, x, y, type) {
               crash = false;
           }
       return crash;
+    }
+    this.hitBottom = function(){
+      var rockBottom = myGameArea.canvas.height - this.height;
+      console.log(rockBottom);
+      if(this.y >rockBottom){
+        this.y = rockBottom;
+        this.gravitySpeed = 0;
+      }
     }
   }
 
@@ -179,7 +196,9 @@ function sound(src) {
     }
 }
 
-
+function accelerate(n){
+  myGamePiece.gravity = n;
+}
 
 
 
