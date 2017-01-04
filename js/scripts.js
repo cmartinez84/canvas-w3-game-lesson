@@ -49,7 +49,7 @@ function component(width, height, color, x, y, type) {
      this.image = new Image();
      this.image.src = color;
    }
-   this.gravity = 0.01;
+   this.gravity = 0.4;
    this.gravitySpeed = 0;
     this.width = width;
     this.height = height;
@@ -57,6 +57,7 @@ function component(width, height, color, x, y, type) {
     this.y = y;
     this.speedX = 0;
     this.speedY = 0;
+    this.bounce = 0.3;
     ctx = myGameArea.context;
     ctx.fillStyle = color;
     this.update = function(){
@@ -125,7 +126,7 @@ function component(width, height, color, x, y, type) {
       console.log(rockBottom);
       if(this.y >rockBottom){
         this.y = rockBottom;
-        this.gravitySpeed = 0;
+        this.gravitySpeed =  -(this.gravitySpeed * this.bounce);
       }
     }
   }
@@ -199,7 +200,6 @@ function sound(src) {
 function accelerate(n){
   myGamePiece.gravity = n;
 }
-
 
 
 function moveUp(){
