@@ -132,7 +132,6 @@ function component(width, height, color, x, y, type) {
   }
 
 
-
 function updateGameArea() {
     var x, y;
     for (i = 0; i < myObstacles.length; i++){
@@ -142,6 +141,7 @@ function updateGameArea() {
         return;
       }
     }
+
     myGameArea.clear();
     myBackground.newPos();
     myBackground.speedX -= .1;
